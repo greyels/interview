@@ -1,0 +1,116 @@
+version: "2.4"
+services:
+  rest:
+    build:
+      context: ../../SC
+      dockerfile: ./rest/Dockerfile
+    image: rest:latest
+    ports:
+      - ${SC_REST_PORT}:${SC_REST_PORT}
+    networks:
+      - internal
+    depends_on:
+      - db
+      - broker
+    restart: on-failure
+    environment:
+      SC_REST_PORT: ${SC_REST_PORT}
+      BROKER_URL: ${BROKER_INTERNAL_URL}
+      BROKER_PORT: ${BROKER_INTERNAL_PORT}
+      CLIENTS_MQTT_TOPIC: ${CLIENTS_MQTT_TOPIC}
+      MONGODB_HOST: db
+      MONGODB_PORT: ${MONGODB_DEFAULT_PORT}
+      MONGODB_USER: ${MONGODB_USER}
+      MONGODB_PASS: ${MONGODB_PASS}
+    command: python rest.py 0.0.0.0
+
+  sync:
+    build:
+      context: ../../SC
+      dockerfile: ./sync/Dockerfile
+    image: sync:latest
+    networks:
+      - internal
+    depends_on:
+      - db
+      - host
+    restart: on-failure
+    environment:
+      HOST_URL: ${HOST_URL}
+      HOST_PORT: ${HOST_PORT}
+      MONGODB_HOST: db
+      MONGODB_PORT: ${MONGODB_DEFAULT_PORT}
+      MONGODB_USER: ${MONGODB_USER}
+      MONGODB_PASS: ${MONGODB_PASS}
+    command: python sync.py
+
+  broker:
+    image: eclipse-mosquitto
+    # uncomment for custom configuration files usage
+    #volumes:
+    #  - ${MOSQUITTO_CONFIG_PATH}:/mosquitto/config
+    #  - ${MOSQUITTO_DATA_PATH}:/mosquitto/data
+    #  - ${MOSQUITTO_LOG_PATH}:/mosquitto/log
+    networks:
+      internal:
+        ipv4_address: ${BROKER_INTERNAL_URL}
+    ports:
+      - ${BROKER_EXTERNAL_PORT}:${BROKER_INTERNAL_PORT}
+
+  db:
+    image: mongo:4
+    networks:
+      - internal
+    volumes:
+      - ${MONGODB_PERSISTENT_PATH}:/data/db
+    restart: always
+    # Limit DB memory usage to 2GB
+    mem_limit: 2000m
+    memswap_limit: 2000m
+    mem_reservation: 1500m
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS}
+    ports:
+      # This should be removed from production deployment!!!
+      - ${MONGODB_DEFAULT_PORT}:${MONGODB_DEFAULT_PORT}
+
+  db_viewer:
+    image: mongo-express
+    networks:
+      - internal
+    depends_on:
+      - db
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_SERVER: db
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASS}
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGODB_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGODB_PASS}
+    ports:
+      - 8081:8081
+
+  host:
+    build:
+      context: ../../host
+      dockerfile: Dockerfile
+    image: host:latest
+    ports:
+      - ${HOST_PORT}:${HOST_PORT}
+    networks:
+      - internal
+    volumes:
+      - ${EXT_LOGFILE_PATH}:${INT_LOGFILE_PATH}
+    restart: on-failure
+    environment:
+      HOST_PORT: ${HOST_PORT}
+      LOGFILE_PATH: ${INT_LOGFILE_PATH}
+    command: python host.py 0.0.0.0 ${HOST_PORT}
+
+networks:
+  internal:
+     ipam:
+        driver: default
+        config:
+          - subnet: 172.20.0.0/16
