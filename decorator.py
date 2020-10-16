@@ -6,13 +6,6 @@ def invoc_decor(fn):
     wrap.invoc = 0
     return wrap
 
-calls_count = invoc_decor(print)
-calls_count(1)
-calls_count(1)
-calls_count(1)
-print(f'calls count = {calls_count.invoc}')
-
-
 # cache decorator
 def cache_decor(fn):
     def wrap(*args):
@@ -25,6 +18,14 @@ def cache_decor(fn):
         return result
     wrap.cache = {}
     return wrap
+
+
+
+calls_count = invoc_decor(print)
+calls_count(1)
+calls_count(1)
+calls_count(1)
+print(f'calls count = {calls_count.invoc}')
 
 cache_test = cache_decor(lambda x: x**2)
 cache_test(2)

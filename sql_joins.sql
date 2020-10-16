@@ -14,10 +14,10 @@ GROUP BY salespeople.city
 -- 4.Повторите предыдущий запрос, но выведите все города, даже если в них не совершалась сделка.
 SELECT SUM(amt), salespeople.city
 FROM orders
-RIGHT OUTER JOIN salespeople on orders.snum = salespeople.snum 
+RIGHT JOIN salespeople on orders.snum = salespeople.snum 
 GROUP BY salespeople.city
 -- 5.Напишите запрос, который бы вывел максимальную сумму заказов для городов в которых проживают покупатели, даже если в этих городах не было произведено сделки.
 SELECT customers.city, MAX(amt)
 FROM customers
-LEFT OUTER JOIN orders on orders.cnum = customers.cnum 
+LEFT JOIN orders on orders.cnum = customers.cnum 
 GROUP BY customers.city
