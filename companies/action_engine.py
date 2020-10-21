@@ -1,29 +1,33 @@
 a = [[None]] * 3
 a[0][0] = 1
 print(a)
-
+# [[1], [1], [1]]
 
 b = [[None] for i in range(3)]
 b[0][0] = 1
 print(b)
-
+[[1], [None], [None]]
 
 c = ([1] for i in range(3))
 c[0][0] = 1
 print(c)
-
+# TypeError: 'generator' object is not subscriptable
 
 d = {i[0]: str(i) for i in b}
 print(d[b[-1][-1]])
-
+# [None]
 
 def my_fn(val, acc=[]):
     acc.append(val)
     return acc
 
 my_fn(1)
+# [1]
 my_fn(2)
+# [1, 2]
 my_fn(3, [1, 2])
+# [1, 2, 3]
+
 
 # --- Присваивание лямбда-функции!!!
 my_fn = lambda *args, **kwargs: print(str(args), str(kwargs))
@@ -46,10 +50,7 @@ my_fn("first", "second", "third", forth="forth", fifth="fifth")
 # SELECT name, COUNT(email) 
 # FROM users
 # GROUP BY email
-# WHERE COUNT(email) > 1
-
-
-# Alexander, 14:09
+# WHERE COUNT(email) > 1 (issue! Should be HAVING)
 
 #        Name      City  Items
 # 0     Alice   Seattle      1
@@ -71,10 +72,7 @@ my_fn("first", "second", "third", forth="forth", fifth="fifth")
 # 16      Bob  New York      1
 # 17  Charlie   Seattle      4
 
-
-
 # gb1 = df.groupby(["Name", "City"]).sum()
-
 
 #                   Items
 # Name    City
@@ -88,15 +86,9 @@ my_fn("first", "second", "third", forth="forth", fifth="fifth")
 #         Portland      3
 #         Seattle       6
 
-
 # gb1.loc["Alice", "Seattle"]["Items"]
 
-
-# 5
-
-
 # gb1.reset_index()
-
 
 #       Name      City  Items
 # 0    Alice  New York     13

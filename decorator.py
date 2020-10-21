@@ -20,7 +20,6 @@ def cache_decor(fn):
     return wrap
 
 
-
 calls_count = invoc_decor(print)
 calls_count(1)
 calls_count(1)
