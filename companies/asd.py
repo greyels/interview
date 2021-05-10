@@ -26,4 +26,4 @@ def print_decor(fn):
         return result
     return wrap
 
-{i**2: i for i in range(100)}
+print({i**2: i for i in range(100)})

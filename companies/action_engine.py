@@ -6,7 +6,7 @@ print(a)
 b = [[None] for i in range(3)]
 b[0][0] = 1
 print(b)
-[[1], [None], [None]]
+# [[1], [None], [None]]
 
 c = ([1] for i in range(3))
 c[0][0] = 1
