@@ -1,4 +1,5 @@
-arr = [1,5,90,56,0,34,2,3,7]
+array = [1, 5, 90, 56, 0, 34, 2, 3, 7]
+
 
 def quick_sort(arr):
     less = []
@@ -16,4 +17,5 @@ def quick_sort(arr):
             greater.append(i)
     return quick_sort(less) + equal + quick_sort(greater)
 
-print(quick_sort(arr))
+
+print(quick_sort(array))

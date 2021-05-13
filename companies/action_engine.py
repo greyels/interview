@@ -15,8 +15,10 @@ print(c)
 
 d = {i[0]: str(i) for i in b}
 print(d[b[-1][-1]])
-# [None]
+# "[None]"
 
+
+# Mutable default argument
 def my_fn(val, acc=[]):
     acc.append(val)
     return acc
@@ -32,7 +34,7 @@ my_fn(3, [1, 2])
 # --- Присваивание лямбда-функции!!!
 my_fn = lambda *args, **kwargs: print(str(args), str(kwargs))
 my_fn("first", "second", "third", forth="forth", fifth="fifth")
-
+# "('first', 'second', 'third')" "{'forth': 'forth', 'fifth': 'fifth'}"
 
 
 # Id	Name			ReferredBy
@@ -45,7 +47,7 @@ my_fn("first", "second", "third", forth="forth", fifth="fifth")
 
 
 # SELECT Name FROM Customers WHERE ReferredBy <> 2;
-
+# 5	Pat Richards	1
 
 # SELECT name, COUNT(email) 
 # FROM users
