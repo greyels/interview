@@ -1,5 +1,5 @@
-a = [1,2,3]
-b = [4,5,6,7]
+a = [1, 2, 3]
+b = [4, 5, 6, 7]
 
 
 def swap_lists_func(a, b):
@@ -10,9 +10,10 @@ def swap_lists_func(a, b):
     for _ in b:
         a.append(b.pop(0))
 
+
 print('a =', a, id(a))
 print('b =', b, id(b))
-swap_lists(a, b)
+swap_lists_func(a, b)
 print('a =', a, id(a))
 print('b =', b, id(b))
 
@@ -25,6 +26,8 @@ def print_decor(fn):
         finally:
             print(2)
         return result
+
     return wrap
 
-print({i**2: i for i in range(100)})
+
+print({i ** 2: i for i in range(100)})
