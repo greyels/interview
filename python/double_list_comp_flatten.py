@@ -1,18 +1,19 @@
+lst1 = [1, 2, 3, 4]
+lst2 = [10, 20, 30, 40]
 
-list1 = [1,2,3,4]
-list2 = [10,20,30,40]
 
 def double_list(list1, list2):
     res = []
     for i in list1:
         for j in list2:
-            res.append(i*j)
+            res.append(i * j)
     return res
 
-print("Via function:")
-print(double_list(list1, list2))
 
-double_list_comp = [i*j for i in list1 for j in list2]
+print("Via function:")
+print(double_list(lst1, lst2))
+
+double_list_comp = [i * j for i in lst1 for j in lst2]
 
 print("Via list comprehension:")
 print(double_list_comp)
