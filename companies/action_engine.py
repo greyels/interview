@@ -54,6 +54,9 @@ my_fn("first", "second", "third", forth="forth", fifth="fifth")
 # GROUP BY email
 # WHERE COUNT(email) > 1 (issue! Should be HAVING)
 
+
+# Pandas
+
 #        Name      City  Items
 # 0     Alice   Seattle      1
 # 1     Alice  Portland      7
