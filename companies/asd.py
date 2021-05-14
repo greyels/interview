@@ -1,21 +1,21 @@
-a = [1, 2, 3]
-b = [4, 5, 6, 7]
+lst_a = [1, 2, 3]
+lst_b = [4, 5, 6, 7]
 
 
 def swap_lists_func(a, b):
+    len_b = len(b)
     for i in a:
         b.append(i)
-        print(len(b))
     del a[:]
-    for _ in b:
+    for i in range(len_b):
         a.append(b.pop(0))
 
 
-print('a =', a, id(a))
-print('b =', b, id(b))
-swap_lists_func(a, b)
-print('a =', a, id(a))
-print('b =', b, id(b))
+print('a =', lst_a, id(lst_a))
+print('b =', lst_b, id(lst_b))
+swap_lists_func(lst_a, lst_b)
+print('a =', lst_a, id(lst_a))
+print('b =', lst_b, id(lst_b))
 
 
 def print_decor(fn):
