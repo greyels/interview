@@ -1,32 +1,40 @@
+from functools import wraps
+
+
 # count invocations decorator
 def invoc_decor(fn):
-    def wrap(*args, **kwargs):
-        wrap.invoc += 1
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        wrapper.invoc += 1
         return fn(*args, **kwargs)
-    wrap.invoc = 0
-    return wrap
+    wrapper.invoc = 0
+    return wrapper
+
 
 # cache decorator
 def cache_decor(fn):
-    def wrap(*args):
-        if args in wrap.cache:
+    @wraps(fn)
+    def wrapper(*args):
+        if args in wrapper.cache:
             print('taken from cache!')
-            return wrap.cache[args]
+            return wrapper.cache[args]
         result = fn(*args)
-        wrap.cache[args] = result
+        wrapper.cache[args] = result
         print('cache isn\'t used!')
         return result
-    wrap.cache = {}
-    return wrap
+    wrapper.cache = {}
+    return wrapper
 
 
+# Test invocation count
 calls_count = invoc_decor(print)
 calls_count(1)
 calls_count(1)
 calls_count(1)
 print(f'calls count = {calls_count.invoc}')
 
-cache_test = cache_decor(lambda x: x**2)
+# Test cache decorator
+cache_test = cache_decor(lambda x: x ** 2)
 cache_test(2)
 cache_test(3)
 cache_test(2)
