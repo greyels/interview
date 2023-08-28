@@ -1,6 +1,3 @@
-array = [1, 5, 90, 56, 0, 34, 2, 3, 7]
-
-
 def quick_sort(arr):
     less = []
     equal = []
@@ -18,4 +15,6 @@ def quick_sort(arr):
     return quick_sort(less) + equal + quick_sort(greater)
 
 
-print(quick_sort(array))
+array = [1, 5, 90, 56, 0, 34, 2, 3, 7]
+assert quick_sort(array), [0, 1, 2, 3, 5, 7, 34, 56, 90]
+print("OK")

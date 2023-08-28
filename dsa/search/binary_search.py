@@ -30,5 +30,6 @@ def binary_search_iter(arr, item):
 array = [1, 3, 5, 6, 9, 99, 1987]
 my_item = 5
 
-print(binary_search_iter(array, my_item))
-print(binary_search_rec(array, 0, len(array) - 1, my_item))
+assert binary_search_iter(array, my_item), 2
+assert binary_search_rec(array, 0, len(array) - 1, my_item), 2
+print("OK")
