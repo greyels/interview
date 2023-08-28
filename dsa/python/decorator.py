@@ -20,7 +20,7 @@ def cache_decor(fn):
             return wrapper.cache[args]
         result = fn(*args)
         wrapper.cache[args] = result
-        print('cache isn\'t used!')
+        print("cache isn\'t used!")
         return result
     wrapper.cache = {}
     return wrapper

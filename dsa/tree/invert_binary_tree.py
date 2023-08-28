@@ -17,3 +17,10 @@ class Solution:
         self.invertTree(root.left)
         self.invertTree(root.right)
         return root
+
+
+root = TreeNode(6, left=TreeNode(2), right=TreeNode(12))
+expected = Solution().invertTree(root)
+assert expected.left.val == 12
+assert expected.right.val == 2
+print("OK")
