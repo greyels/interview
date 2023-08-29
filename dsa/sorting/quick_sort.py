@@ -1,9 +1,10 @@
+# Divide and conquer
 def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
     less = []
     equal = []
     greater = []
-    if len(arr) <= 1:
-        return arr
     pivot = arr[0]
     for i in arr:
         if i < pivot:
