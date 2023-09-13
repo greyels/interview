@@ -18,5 +18,5 @@ class Solution:
 
 s = "aacc"
 t = "ccac"
-assert Solution().isAnagram(s, t), False
+assert Solution().isAnagram(s, t) is True
 print("OK")

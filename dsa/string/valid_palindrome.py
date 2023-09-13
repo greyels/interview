@@ -5,14 +5,12 @@ class Solution:
 
         if len(s) <= 1:
             return True
-        for i in range(len(s)//2):
-            if s[i] != s[-i-1]:
+        for i in range(len(s) // 2):
+            if s[i] != s[-i - 1]:
                 return False
         return True
 
 
-
-
 s = "A man, a plan, a canal: Panama"
-assert Solution().isPalindrome(s), True
+assert Solution().isPalindrome(s) is True
 print("OK")
