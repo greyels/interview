@@ -1,9 +1,13 @@
-def dfs(graph, node, visited):
-    if node not in visited:
-        print(node)  # Process the node (you can modify this part)
-        visited.add(node)  # Mark the node as visited
-        for neighbor in graph[node]:
-            dfs(graph, neighbor, visited)
+def depth_first_search(graph, start_node):
+    def dfs(graph, node, visited):
+        print(f"we are at {node}")
+        if node not in visited:
+            print(node)  # Process the node (you can modify this part)
+            visited.add(node)  # Mark the node as visited
+            for neighbor in graph[node]:
+                dfs(graph, neighbor, visited)
+    return dfs(graph, start_node, set())
+
 
 # Example graph represented as an adjacency list
 graph = {
@@ -15,7 +19,4 @@ graph = {
     'F': []
 }
 
-start_node = 'A'
-visited_nodes = set()
-print("Depth-First Traversal:")
-dfs(graph, start_node, visited_nodes)
+depth_first_search(graph, 'A')
