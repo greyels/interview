@@ -22,8 +22,23 @@ class Solution:
                 min_purchase = price
         return max_profit
 
+    @staticmethod
+    def max_profit_sliding(prices: List[int]) -> int:
+        left, right = 0, 1
+        max_profit = 0
+        while right < len(prices):
+            cur_profit = prices[right] - prices[left]
+            if prices[right] > prices[left]:
+                if cur_profit > max_profit:
+                    max_profit = cur_profit
+            else:
+                left = right
+            right += 1
+        return max_profit
+
 
 prices = [7, 1, 5, 3, 6, 4]
 expected = 5
 assert Solution().max_profit(prices) == 5
+assert Solution().max_profit_sliding(prices) == 5
 print("OK")
