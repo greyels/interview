@@ -58,7 +58,7 @@ def get_neighbors(coord):
 
 def bfs_matrix(starting_node):
     queue = deque([starting_node])
-    visited = set([starting_node])
+    visited = {starting_node}
     while len(queue) > 0:
         node = queue.popleft()
         for neighbor in get_neighbors(node):
