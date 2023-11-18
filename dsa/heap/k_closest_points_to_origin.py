@@ -7,7 +7,7 @@ class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
         heap = []
         for x, y in points:
-            # Beacuse we need a MaxHeap (multiply on -1)
+            # Because we need a MaxHeap (multiply on -1)
             dist = -(x * x + y * y)
             if len(heap) == k:
                 heapq.heappushpop(heap, (dist, x, y))
