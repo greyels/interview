@@ -23,8 +23,8 @@ def bfs_graph(root):
             queue.append(neighbor)
             visited.add(neighbor)
 
-# DFS on Tree
-def dfs_tree(root, target):
+# DFS on Tree (recursive)
+def dfs_tree_recurs(root, target):
     if root is None:
         return None
     if root.val == target:
@@ -33,6 +33,17 @@ def dfs_tree(root, target):
     if left is not None:
         return left
     return dfs_tree(root.right, target)
+
+# DFS on Tree (iterative - stack)
+def dfs_tree_iter(root):
+    stack = [root]
+    res = []
+    while stack:
+        node = stack.pop()
+        if node:
+            res.append(node.val)
+        stack.extend([node.right, node.left])
+    return res
 
 # DFS on Graphs
 def dfs_graph(root, visited):
