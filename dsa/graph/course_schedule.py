@@ -28,5 +28,6 @@ class Solution:
 
         # Execute DFS for every course from numCourses
         for course in range(numCourses):
-            if not (dfs(course)): return False
+            if not (dfs(course)):
+                return False
         return True
