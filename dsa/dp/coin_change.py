@@ -11,7 +11,7 @@ class Solution:
         # To get amount=0 we need 0 coins -> initialize first DP element
         dp[0] = 0
 
-        # iterate over all possibble values from 1 to N (amount)
+        # iterate over all possible values from 1 to N (amount)
         for n in range(1, amount + 1):
             # iterate over each coin in coins
             for coin in coins:
