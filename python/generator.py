@@ -13,7 +13,7 @@ for item in mygen(99):
 
 # generators chain
 def generate_filenames():
-    for dir_path, dir_names, file_names in os.walk('../../'):
+    for dir_path, dir_names, file_names in os.walk('../'):
         for file_name in file_names:
             if file_name.endswith('.py'):
                 yield open(os.path.join(dir_path, file_name))
