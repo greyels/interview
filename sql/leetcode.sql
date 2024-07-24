@@ -24,3 +24,18 @@ cross join Subjects as sub
 left join Examinations as e on s.student_id = e.student_id and sub.subject_name = e.subject_name
 group by s.student_id, s.student_name, sub.subject_name
 order by s.student_id, sub.subject_name
+
+-- 570. Managers with at Least 5 Direct Reports
+select e2.name
+from Employee as e1
+inner join Employee as e2 on e1.managerId = e2.id
+group by e1.managerId, e2.name
+having count(e1.id) >= 5
+
+-- 1934. Confirmation Rate
+select
+    s.user_id,
+    round(avg(case when action = 'confirmed' then 1 else 0 end), 2) as confirmation_rate
+from Signups as s
+left join Confirmations as c on s.user_id = c.user_id
+group by s.user_id
