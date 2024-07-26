@@ -39,3 +39,15 @@ select
 from Signups as s
 left join Confirmations as c on s.user_id = c.user_id
 group by s.user_id
+
+-- 620. Not Boring Movies
+select id, movie, description, rating
+from Cinema
+where mod(id, 2) <> 0 and description <> 'boring'
+order by rating desc
+
+-- 1251. Average Selling Price
+select p.product_id, coalesce(round(cast(sum(p.price * u.units) as decimal) / sum(u.units), 2), 0) as average_price
+from Prices as p
+left join UnitsSold as u on u.product_id = p.product_id and (u.purchase_date between p.start_date and p.end_date)
+group by p.product_id
