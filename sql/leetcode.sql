@@ -51,3 +51,16 @@ select p.product_id, coalesce(round(cast(sum(p.price * u.units) as decimal) / su
 from Prices as p
 left join UnitsSold as u on u.product_id = p.product_id and (u.purchase_date between p.start_date and p.end_date)
 group by p.product_id
+
+-- https://leetcode.com/problems/project-employees-i/
+select p.project_id, round(avg(e.experience_years), 2) as average_years
+from Project as p
+left join Employee as e on p.employee_id = e.employee_id
+group by p.project_id
+
+-- https://leetcode.com/problems/percentage-of-users-attended-a-contest
+-- MySQL
+select contest_id, round(100 * count(distinct user_id) / (select count(user_id) from Users), 2) as percentage
+from Register
+group by contest_id
+order by percentage desc, contest_id asc
