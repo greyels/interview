@@ -59,8 +59,67 @@ left join Employee as e on p.employee_id = e.employee_id
 group by p.project_id
 
 -- https://leetcode.com/problems/percentage-of-users-attended-a-contest
--- MySQL
 select contest_id, round(100 * count(distinct user_id) / (select count(user_id) from Users), 2) as percentage
 from Register
 group by contest_id
 order by percentage desc, contest_id asc
+
+-- https://leetcode.com/problems/queries-quality-and-percentage
+select
+    query_name,
+    round(avg(rating/position), 2) as quality,
+    round(100 * sum(case when rating < 3 then 1 else 0 end) / count(*), 2) as poor_query_percentage
+from Queries
+group by query_name
+
+-- https://leetcode.com/problems/monthly-transactions-i
+select date_format(trans_date, '%Y-%m') as month,   -- select substr(trans_date, 1, 7) as month
+    country,
+    count(id) as trans_count,
+    sum(case when state = "approved" then 1 else 0 end) as approved_count,
+    sum(amount) as trans_total_amount,
+    sum(case when state = "approved" then amount else 0 end) as approved_total_amount
+from Transactions
+group by month, country
+
+-- https://leetcode.com/problems/immediate-food-delivery-ii
+with delivery_num as (
+    select
+        *,
+        row_number() over(partition by customer_id order by order_date) as order_number
+    from Delivery
+)
+select round(100 * sum(case when order_date = customer_pref_delivery_date then 1 else 0 end) / count(*), 2) as immediate_percentage
+-- select ROUND(AVG(order_date = customer_pref_delivery_date) * 100, 2) as immediate_percentage
+from delivery_num
+where order_number = 1
+
+-- https://leetcode.com/problems/game-play-analysis-iv
+select round(count(player_id) / (select count(distinct player_id) from Activity), 2) as fraction
+from Activity
+where (player_id, date_sub(event_date, interval 1 day))
+    in (select player_id, min(event_date) from Activity group by player_id)
+
+-- https://leetcode.com/problems/not-boring-movies
+select id, movie, description, rating
+from Cinema
+where id % 2 != 0 and description != "boring"
+order by rating desc
+
+-- https://leetcode.com/problems/number-of-unique-subjects-taught-by-each-teacher
+select teacher_id, count(distinct subject_id) as cnt
+from Teacher
+group by teacher_id
+
+-- https://leetcode.com/problems/user-activity-for-the-past-30-days-i
+select activity_date as day, count(distinct user_id) as active_users
+from Activity
+group by activity_date
+having activity_date between date_sub("2019-07-27", interval 29 day) and "2019-07-27"
+
+-- https://leetcode.com/problems/product-sales-analysis-iii
+select a.product_id, b.first_year, a.quantity, a.price
+from Sales as a
+left join (select product_id, min(year) as first_year from Sales group by product_id) as b
+on a.product_id = b.product_id
+where a.year = b.first_year
