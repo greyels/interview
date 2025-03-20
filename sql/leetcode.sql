@@ -86,10 +86,11 @@ group by month, country
 with delivery_num as (
     select
         *,
-        row_number() over(partition by customer_id order by order_date) as order_number
+        row_number() over (partition by customer_id order by order_date) as order_number
     from Delivery
 )
 select round(100 * sum(case when order_date = customer_pref_delivery_date then 1 else 0 end) / count(*), 2) as immediate_percentage
+
 -- select ROUND(AVG(order_date = customer_pref_delivery_date) * 100, 2) as immediate_percentage
 from delivery_num
 where order_number = 1
@@ -123,3 +124,54 @@ from Sales as a
 left join (select product_id, min(year) as first_year from Sales group by product_id) as b
 on a.product_id = b.product_id
 where a.year = b.first_year
+
+-- https://leetcode.com/problems/classes-more-than-5-students
+select class from Courses group by class having count(student) > 4
+
+-- https://leetcode.com/problems/find-followers-count
+select user_id, count(follower_id) as followers_count from Followers group by user_id order by user_id
+
+-- https://leetcode.com/problems/biggest-single-number
+select max(num) as num
+from (
+    select num from MyNumbers group by num having count(num) = 1
+) as once
+
+-- https://leetcode.com/problems/customers-who-bought-all-products
+select customer_id
+from Customer
+group by customer_id
+having count(distinct product_key) = (select count(product_key) from Product)
+
+-- https://leetcode.com/problems/the-number-of-employees-which-report-to-each-employee
+select
+    mng.employee_id as employee_id,
+    mng.name as name,
+    count(emp.employee_id) as reports_count,
+    round(avg(emp.age)) as average_age
+from Employees as emp
+inner join Employees as mng on emp.reports_to = mng.employee_id
+group by mng.employee_id
+order by employee_id
+
+-- https://leetcode.com/problems/primary-department-for-each-employee
+select employee_id, department_id from Employee
+where primary_flag = 'Y'
+union all
+select employee_id, department_id from Employee
+group by employee_id
+having count(department_id) = 1
+
+-- https://leetcode.com/problems/triangle-judgement
+select x, y, z,
+    (case when (x + y <= z or y + z <= x or x + z <= y) then "No" else "Yes" end) as triangle
+from Triangle
+
+-- https://leetcode.com/problems/consecutive-numbers
+select distinct num as ConsecutiveNums
+from (
+    select num,
+        lag(num) over (order by id) as prev_num,
+        lead(num) over (order by id) as next_num
+    from Logs) as cons_nums
+where num = prev_num and num = next_num
