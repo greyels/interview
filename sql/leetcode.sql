@@ -244,3 +244,22 @@ where month(mr.created_at) = 02 and year(mr.created_at) = 2020
 group by m.title
 order by avg(mr.rating) desc, m.title
 limit 1)
+
+-- https://leetcode.com/problems/restaurant-growth
+WITH daily_totals AS (
+    SELECT
+        visited_on,
+        SUM(amount) AS daily_total
+    FROM Customer
+    GROUP BY visited_on
+)
+select visited_on, amount, average_amount
+from (
+    select visited_on,
+        sum(daily_total) over (order by visited_on rows between 6 preceding and current row) as amount,
+        round(avg(daily_total) over (order by visited_on rows between 6 preceding and current row), 2) as average_amount,
+        COUNT(*) OVER (ORDER BY visited_on) AS row_num
+    from daily_totals
+) a
+where row_num >= 7
+ORDER BY visited_on
