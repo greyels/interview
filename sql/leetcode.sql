@@ -230,3 +230,17 @@ select (
     end) as id, student
 from Seat
 order by id
+
+-- https://leetcode.com/problems/movie-rating
+(select u.name as results
+from MovieRating as mr join Users as u on mr.user_id = u.user_id
+group by u.name
+order by count(*) desc, u.name
+limit 1)
+union all
+(select m.title as results
+from MovieRating as mr join Movies as m on mr.movie_id = m.movie_id
+where month(mr.created_at) = 02 and year(mr.created_at) = 2020
+group by m.title
+order by avg(mr.rating) desc, m.title
+limit 1)
