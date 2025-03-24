@@ -191,3 +191,42 @@ where (product_id, change_date) in
     where change_date <= "2019-08-16"
     group by product_id
 )
+
+-- https://leetcode.com/problems/last-person-to-fit-in-the-bus
+select person_name
+from (select
+    *,
+    sum(weight) over (order by turn) as total_weight
+    from Queue
+) as t
+where total_weight <= 1000
+order by total_weight desc
+limit 1
+
+-- https://leetcode.com/problems/count-salary-categories
+select "Low Salary" as category, count(account_id) as accounts_count
+from Accounts
+where income < 20000
+union all
+select "Average Salary" as category, count(account_id) as accounts_count
+from Accounts
+where income >= 20000 and income <= 50000
+union all
+select "High Salary" as category, count(account_id) as accounts_count
+from Accounts
+where income > 50000
+
+-- https://leetcode.com/problems/employees-whose-manager-left-the-company
+select employee_id
+from Employees
+where salary < 30000 and manager_id not in (select distinct employee_id from Employees)
+order by employee_id
+
+-- https://leetcode.com/problems/exchange-seats
+select (
+    case when id % 2 = 0 then (id - 1)
+         when id % 2 = 1 and id != (select count(distinct id) from Seat) then (id + 1)
+         else id
+    end) as id, student
+from Seat
+order by id
