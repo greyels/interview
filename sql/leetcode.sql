@@ -263,3 +263,20 @@ from (
 ) a
 where row_num >= 7
 ORDER BY visited_on
+
+-- https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends
+with friends_count as (
+    select requester_id as id, count(accepter_id) as num
+    from RequestAccepted
+    group by requester_id
+    union all
+    select accepter_id as id, count(accepter_id) as num
+    from RequestAccepted
+    group by accepter_id
+)
+
+select id, sum(num) as num
+from friends_count
+group by id
+order by num desc
+limit 1
