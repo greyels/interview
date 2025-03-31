@@ -296,3 +296,8 @@ where salary_rank <= 3
 select user_id, concat(ucase(left(name,1)), lcase(substring(name,2))) as name
 from Users
 order by user_id
+
+-- https://leetcode.com/problems/patients-with-a-condition
+select patient_id, patient_name, conditions
+from Patients
+where conditions regexp '(^| )DIAB1'
