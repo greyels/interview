@@ -274,9 +274,20 @@ with friends_count as (
     from RequestAccepted
     group by accepter_id
 )
+select id, sum(num) as num from friends_count group by id order by num desclimit 1
 
-select id, sum(num) as num
-from friends_count
-group by id
-order by num desc
-limit 1
+-- https://leetcode.com/problems/investments-in-2016
+select round(sum(tiv_2016), 2) as tiv_2016
+from Insurance
+where tiv_2015 in (select tiv_2015 from Insurance group by tiv_2015 having count(pid) > 1)
+    and (lat, lon) in (select lat, lon from Insurance group by lat, lon having count(pid) = 1)
+
+-- https://leetcode.com/problems/department-top-three-salaries
+select Department, Employee, Salary
+    from (
+        select d.name as Department, e.name as Employee, e.salary as Salary,
+            dense_rank() over (partition by d.id order by e.salary desc) as salary_rank
+        from Employee as e
+        left join Department as d on e.departmentId = d.id
+    ) a
+where salary_rank <= 3
