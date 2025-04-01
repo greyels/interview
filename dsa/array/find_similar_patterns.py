@@ -5,7 +5,7 @@ from typing import List
 # Ex: Words=[aabbcc, aakkff, akkffkk, tjjiijj, deftg]. word="mnnssnn".
 # Output=[akkffkk, tjjiijj]
 def find_similar_patterns(words: List[str], pattern: str) -> List[str]:
-    def has_pattern(word, pattern):
+    def has_pattern(word):
         if len(word) != len(pattern):
             return False
         for i in range(len(word) - 1):
@@ -15,7 +15,7 @@ def find_similar_patterns(words: List[str], pattern: str) -> List[str]:
                 return False
         return True
 
-    return [word for word in words if has_pattern(word, pattern)]
+    return [word for word in words if has_pattern(word)]
 
 
 # Ensure only matching patterns are returned
