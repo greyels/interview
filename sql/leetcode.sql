@@ -300,4 +300,38 @@ order by user_id
 -- https://leetcode.com/problems/patients-with-a-condition
 select patient_id, patient_name, conditions
 from Patients
-where conditions regexp '(^| )DIAB1'
+where conditions regexp "(^| )DIAB1"
+
+-- https://leetcode.com/problems/delete-duplicate-emails
+DELETE p1
+FROM person p1, person p2
+WHERE p1.email = p2.email AND p1.id > p2.id
+
+-- https://leetcode.com/problems/second-highest-salary
+select coalesce(max(salary), null) as SecondHighestSalary
+from (
+    select salary,
+        dense_rank() over (order by salary desc) as salary_rank
+    from Employee
+) a
+where salary_rank = 2
+
+-- https://leetcode.com/problems/group-sold-products-by-the-date
+select sell_date,
+    count(distinct product) as num_sold,
+    group_concat(distinct product order by product) as products
+from Activities
+group by sell_date
+
+-- https://leetcode.com/problems/list-the-products-ordered-in-a-period
+select p.product_name, sum(o.unit) as unit
+from Orders as o
+left join Products as p on o.product_id = p.product_id
+where month(o.order_date) = "02" and year(o.order_date) = 2020
+group by p.product_id
+having sum(o.unit) >= 100
+
+-- https://leetcode.com/problems/find-users-with-valid-e-mails
+select user_id, name, mail
+from Users
+where mail regexp "^[A-Za-z]+[A-Za-z0-9\_\.\-]*@leetcode\\.com$"
