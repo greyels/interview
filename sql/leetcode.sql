@@ -335,3 +335,8 @@ having sum(o.unit) >= 100
 select user_id, name, mail
 from Users
 where mail regexp "^[A-Za-z]+[A-Za-z0-9\_\.\-]*@leetcode\\.com$"
+
+-- https://leetcode.com/problems/combine-two-tables/description/
+select firstName, lastName, city, state
+from Person p
+left join Address a on p.personId = a.personId
