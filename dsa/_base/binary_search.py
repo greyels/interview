@@ -18,11 +18,11 @@ def binary_search_iter(arr, item):
     right = len(arr) - 1
     while right >= left:
         mid = (right + left) // 2
-        if arr[mid] == item:
+        if item == arr[mid]:
             return mid
-        elif arr[mid] < item:
+        elif item > arr[mid]:
             left = mid + 1
-        elif arr[mid] > item:
+        elif item < arr[mid]:
             right = mid - 1
     return
 
