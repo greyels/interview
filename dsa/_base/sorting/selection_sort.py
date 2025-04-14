@@ -12,4 +12,5 @@ def selection_sort(arr):
 
 
 array = [1, 5, 90, 56, 0, 34, 2, 3, 7]
-print(selection_sort(array))
+assert selection_sort(array), [0, 1, 2, 3, 5, 7, 34, 56, 90]
+print("OK")
